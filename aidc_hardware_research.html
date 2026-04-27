@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AIDC硬件图谱与市场研究</title>
+  <style>
+    :root {
+      --bg: #f6f7f4;
+      --ink: #1f2a2a;
+      --muted: #65706b;
+      --line: #d9ded7;
+      --panel: #ffffff;
+      --green: #1d6b52;
+      --blue: #315f8c;
+      --amber: #b5761c;
+      --red: #a13d3d;
+      --purple: #6b5687;
+      --teal: #177b82;
+      --shadow: 0 8px 24px rgba(31,42,42,.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.55;
+    }
+    header {
+      padding: 34px 28px 22px;
+      background: linear-gradient(180deg, #ffffff 0%, #f6f7f4 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .wrap { max-width: 1240px; margin: 0 auto; }
+    .kicker { color: var(--green); font-weight: 700; letter-spacing: .04em; font-size: 13px; }
+    h1 { margin: 8px 0 10px; font-size: clamp(30px, 5vw, 58px); line-height: 1.05; letter-spacing: 0; }
+    .lead { max-width: 920px; color: #3c4845; font-size: 18px; margin: 0; }
+    .meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; color: var(--muted); font-size: 13px; }
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.72);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+    main { padding: 22px 28px 44px; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(246,247,244,.95);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+    nav .wrap { display: flex; gap: 8px; overflow-x: auto; padding: 10px 28px; }
+    nav a {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 7px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .action-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 650;
+    }
+    .action-link.primary {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    section { margin: 26px auto 0; }
+    h2 { margin: 0 0 14px; font-size: 26px; line-height: 1.2; }
+    h3 { margin: 0 0 8px; font-size: 18px; }
+    .grid { display: grid; gap: 14px; }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .panel.pad { padding: 18px; }
+    .metric { min-height: 168px; }
+    .metric .num { font-size: 34px; font-weight: 800; margin: 10px 0 2px; }
+    .metric .unit { color: var(--muted); font-size: 13px; }
+    .metric p { color: #46524f; margin: 10px 0 0; font-size: 14px; }
+    .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #fff; border-radius: 999px; padding: 4px 8px; }
+    .tag.compute { background: var(--green); }
+    .tag.network { background: var(--blue); }
+    .tag.power { background: var(--amber); }
+    .tag.cooling { background: var(--teal); }
+    .tag.storage { background: var(--purple); }
+    .tag.risk { background: var(--red); }
+    .map {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr 1.1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+    .stage {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .stage ul { margin: 8px 0 0; padding-left: 18px; color: #42504c; }
+    .stage li { margin: 6px 0; }
+    .center-core {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 250px;
+      background: #172523;
+      color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .center-core svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .44; }
+    .center-core .txt { position: relative; z-index: 1; }
+    .center-core b { font-size: 32px; display: block; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      padding: 8px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+    }
+    button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 960px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 10px; text-align: left; vertical-align: top; }
+    th { font-size: 13px; color: var(--muted); background: #fbfcfa; position: sticky; top: 0; }
+    td { font-size: 14px; }
+    .barcell { min-width: 190px; }
+    .bar {
+      height: 10px;
+      background: #e7ebe5;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+    .bar span { display: block; height: 100%; background: var(--green); }
+    .small { color: var(--muted); font-size: 12px; }
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 150px;
+    }
+    .box .score { font-weight: 800; font-size: 28px; margin: 8px 0; }
+    .path {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .path .node { padding: 13px; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+    .node b { display: block; margin-bottom: 6px; }
+    .svgpanel { min-height: 310px; }
+    .svgpanel svg { width: 100%; height: auto; display: block; }
+    .footnotes { font-size: 12px; color: var(--muted); }
+    .source-list li { margin: 6px 0; }
+    a { color: #1d5f8f; }
+    @media (max-width: 920px) {
+      .grid.cols-3, .grid.cols-4, .map, .matrix, .path { grid-template-columns: 1fr; }
+      header, main { padding-left: 18px; padding-right: 18px; }
+      nav .wrap { padding-left: 18px; padding-right: 18px; }
+      h1 { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="kicker">AI DATA CENTER HARDWARE RESEARCH</div>
+      <h1>AIDC硬件图谱与市场研究</h1>
+      <p class="lead">核心问题：Agent大规模应用以后，AIDC瓶颈是否仍在GPU，还是转向电力、内存、网络、散热和存储？本页将硬件链条拆成可投资环节，并按市场规模、增速、瓶颈强度和进入壁垒排序。</p>
+      <div class="meta">
+        <span class="pill">研究日期：2026-04-27</span>
+        <span class="pill">口径：全球AIDC/AI基础设施硬件</span>
+        <span class="pill">来源：IDC、IEA、Dell'Oro、Gartner、TrendForce、NVIDIA等公开资料</span>
+      </div>
+      <div class="actions" aria-label="报告操作">
+        <a class="action-link primary" href="#market">查看市场排序</a>
+        <a class="action-link" href="AIDC硬件图谱与市场研究.md">打开Markdown报告</a>
+        <a class="action-link" href="output/pdf/AIDC硬件图谱与市场研究.pdf">下载PDF报告</a>
+        <a class="action-link" href="javascript:window.print()">打印网页</a>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap">
+      <a href="#summary">核心结论</a>
+      <a href="#map">硬件图谱</a>
+      <a href="#market">市场排序</a>
+      <a href="#bottleneck">瓶颈演化</a>
+      <a href="#agent">Agent影响</a>
+      <a href="#thesis">投资含义</a>
+      <a href="#sources">来源</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="summary" class="wrap">
+      <h2>1. 核心结论</h2>
+      <div class="grid cols-4">
+        <div class="panel pad metric">
+          <span class="tag compute">总量</span>
+          <div class="num">$318B</div>
+          <div class="unit">IDC预计2025年AI基础设施支出</div>
+          <p>到2029年累计有望超过1万亿美元。GPU/服务器仍是最大池子，但边际瓶颈外溢。</p>
+        </div>
+        <div class="panel pad metric">
+          <span class="tag power">电力</span>
+          <div class="num">945TWh</div>
+          <div class="unit">IEA对2030年数据中心用电需求的基准估计</div>
+          <p>电力接入、变压器、开关柜、UPS和现场配电成为交付周期瓶颈。</p>
+        </div>
+        <div class="panel pad metric">
+          <span class="tag cooling">液冷</span>
+          <div class="num">>$2B</div>
+          <div class="unit">Dell'Oro：2025年直接液冷收入年化节奏</div>
+          <p>从可选项变成高密度AI rack的基础配置，CDU、冷板、泵阀、快接头受益。</p>
+        </div>
+        <div class="panel pad metric">
+          <span class="tag network">网络</span>
+          <div class="num">800G→1.6T</div>
+          <div class="unit">训练与推理集群网络代际迁移</div>
+          <p>Agent提升推理并发与KV cache访问，后端网络和光模块价值量继续上行。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="map" class="wrap">
+      <h2>2. AIDC硬件全景图谱</h2>
+      <div class="panel pad">
+        <div class="map">
+          <div class="stage">
+            <h3>上游核心部件</h3>
+            <ul>
+              <li>AI加速器：GPU、ASIC、NPU、互联芯片</li>
+              <li>存储器：HBM、DDR5、NAND、CXL内存扩展</li>
+              <li>网络器件：交换芯片、NIC/DPU、DSP、光芯片、激光器</li>
+              <li>电力部件：变压器、断路器、UPS模块、电池、母线</li>
+              <li>热管理部件：冷板、CDU、泵、阀、快接头、液冷工质</li>
+            </ul>
+          </div>
+          <div class="center-core">
+            <svg viewBox="0 0 420 260" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                  <stop offset="0" stop-color="#2fbf91"/>
+                  <stop offset=".55" stop-color="#5aa0d8"/>
+                  <stop offset="1" stop-color="#e0a543"/>
+                </linearGradient>
+              </defs>
+              <path d="M20 190 C 105 40, 210 260, 400 70" fill="none" stroke="url(#g)" stroke-width="6"/>
+              <path d="M20 75 C 115 220, 205 20, 400 195" fill="none" stroke="url(#g)" stroke-width="4"/>
+              <circle cx="95" cy="83" r="16" fill="#2fbf91"/>
+              <circle cx="210" cy="133" r="22" fill="#5aa0d8"/>
+              <circle cx="326" cy="178" r="16" fill="#e0a543"/>
+            </svg>
+            <div class="txt">
+              <b>AI Rack / Cluster</b>
+              <span>计算、网络、供电、散热、存储共同决定可交付算力</span>
+            </div>
+          </div>
+          <div class="stage">
+            <h3>中下游系统与设施</h3>
+            <ul>
+              <li>AI服务器：GPU节点、NVL rack、推理服务器、边缘节点</li>
+              <li>Scale-up：NVLink/UALink、PCIe/CXL、机柜内铜互联</li>
+              <li>Scale-out：InfiniBand/Ethernet交换机、光模块、AOC/DAC</li>
+              <li>数据中心物理基础设施：配电、液冷、机柜、监控、消防</li>
+              <li>园区级设施：电网接入、变电站、备用电源、冷源系统</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="market" class="wrap">
+      <h2>3. 市场规模与吸引力排序</h2>
+      <div class="controls">
+        <button class="active" data-filter="all">全部</button>
+        <button data-filter="compute">计算/内存</button>
+        <button data-filter="network">网络</button>
+        <button data-filter="power">电力</button>
+        <button data-filter="cooling">散热</button>
+        <button data-filter="storage">存储</button>
+      </div>
+      <div class="panel table-wrap">
+        <table id="marketTable">
+          <thead>
+            <tr>
+              <th>环节</th>
+              <th>2025/近期期量级</th>
+              <th>增速/趋势</th>
+              <th>Agent驱动</th>
+              <th>瓶颈强度</th>
+              <th>市场空间</th>
+              <th>投资判断</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="footnotes">注：市场空间为可比评分，不等同于精确TAM；量级按公开资料与可复核测算归类，详见Markdown报告。</p>
+    </section>
+
+    <section id="bottleneck" class="wrap">
+      <h2>4. 瓶颈迁移：从GPU短缺到“瓦特、字节、端口、冷量”短缺</h2>
+      <div class="path">
+        <div class="node"><b>2023-2024</b>GPU交付与先进封装是主约束，服务器厂商围绕H100/H200供给排产。</div>
+        <div class="node"><b>2025</b>Blackwell/GB200高密度rack上量，单柜功率和液冷能力成为交付门槛。</div>
+        <div class="node"><b>2026</b>Agent推理放量，HBM容量、KV cache、东西向网络和在线存储压力显性化。</div>
+        <div class="node"><b>2027-2028</b>数据中心选址从“土地/成本”转向“电力可得性+冷却水/热排放+并网周期”。</div>
+        <div class="node"><b>长期</b>算力效率、内存层级、光互联和电力基础设施决定边际ROI。</div>
+      </div>
+    </section>
+
+    <section id="agent" class="wrap">
+      <h2>5. Agent应用放量后的硬件压力传导</h2>
+      <div class="grid cols-3">
+        <div class="panel pad">
+          <h3>推理并发从“请求”升级为“任务链”</h3>
+          <p>Agent通常包含规划、检索、工具调用、反思、执行与多轮校验。同一用户任务会放大token、模型调用次数和上下文读写，对推理GPU、HBM容量和服务端网络造成非线性压力。</p>
+        </div>
+        <div class="panel pad">
+          <h3>长上下文与RAG提高存储/网络权重</h3>
+          <p>企业Agent需要访问私有知识库、向量库、日志和事务系统。高性能SSD、对象存储、RDMA/TCP网络、缓存层和数据管道从辅助设施变成吞吐约束。</p>
+        </div>
+        <div class="panel pad">
+          <h3>在线SLA推高供电与散热冗余</h3>
+          <p>Agent进入客服、办公、代码、制造等流程后，服务中断成本上升。N+1电力、UPS、电池、液冷冗余与监控系统的价值量提升。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <h2>6. 技术瓶颈热力图</h2>
+      <div class="matrix">
+        <div class="box"><span class="tag compute">HBM/内存</span><div class="score">5/5</div><p>模型参数、KV cache和长上下文共同消耗显存；HBM供应受DRAM厂资本开支、先进封装和良率约束。</p></div>
+        <div class="box"><span class="tag power">电力接入</span><div class="score">5/5</div><p>大集群从MW走向GW级园区，变压器、开关柜、并网审批和长交期设备成为硬约束。</p></div>
+        <div class="box"><span class="tag cooling">液冷</span><div class="score">4/5</div><p>100kW级机柜让风冷经济性下降，液冷系统从工程选项变为服务器交付前置条件。</p></div>
+        <div class="box"><span class="tag network">高速网络</span><div class="score">4/5</div><p>训练集群依赖低延迟后端网络；Agent推理提升东西向流量、检索流量和存储访问流量。</p></div>
+      </div>
+    </section>
+
+    <section id="thesis" class="wrap">
+      <h2>7. 投资含义</h2>
+      <div class="panel pad">
+        <div class="grid cols-3">
+          <div>
+            <h3>最大市场</h3>
+            <p>AI服务器/加速器、HBM、网络设备、电力基础设施。特点是TAM大、资本开支强，但头部集中度高。</p>
+          </div>
+          <div>
+            <h3>高弹性市场</h3>
+            <p>液冷、光模块/高速铜缆、配电组件、CDU、数据中心监控。特点是随高密度rack渗透率提升，收入弹性高。</p>
+          </div>
+          <div>
+            <h3>一级市场更可投方向</h3>
+            <p>避开GPU整芯片正面竞争，优先关注关键部件国产替代、工程交付能力、认证周期和绑定头部客户的供应链环节。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sources" class="wrap">
+      <h2>8. 主要资料来源</h2>
+      <div class="panel pad">
+        <ul class="source-list">
+          <li>IDC：<a href="https://www.idc.com/resource-center/blog/ai-infrastructure-spending-caps-historic-year-at-90-billion-in-q4-2025-2029-spending-to-eclipse-1-trillion/" target="_blank">AI infrastructure spending, Q4 2025 / 2029 forecast</a></li>
+          <li>IEA：<a href="https://www.iea.org/reports/energy-and-ai" target="_blank">Energy and AI, 2025</a></li>
+          <li>Dell'Oro Group / PR Newswire：<a href="https://www.prnewswire.com/news-releases/data-center-physical-infrastructure-maintains-strong-growth-trajectory-up-18-percent-yy-in-2q-2025-according-to-delloro-group-302551744.html" target="_blank">Data Center Physical Infrastructure Market, 2Q25</a></li>
+          <li>Gartner：<a href="https://www.gartner.com/en/newsroom/press-releases/2025-09-17-gartner-says-worldwide-ai-spending-will-total-1-point-5-trillion-in-2025" target="_blank">AI spending and AI processing semiconductors, 2025</a></li>
+          <li>Gartner：<a href="https://www.gartner.com/en/newsroom/press-releases/2026-04-08-gartner-forecasts-worldwide-semiconductor-revenue-to-exceed-us-dollars-one-point-3-trillion-in-2026" target="_blank">Semiconductor / memory forecast, 2026</a></li>
+          <li>TrendForce：<a href="https://www.trendforce.com/presscenter/news/20251020-12516.html" target="_blank">AI Server Shipment and Server Market Value, 2025</a></li>
+          <li>NVIDIA：<a href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-fourth-quarter-and-fiscal-2026" target="_blank">Fiscal 2026 results</a></li>
+          <li>IDC：<a href="https://www.idc.com/resource-center/blog/ethernet-switch-market-size-and-growth-datacenter-segment-surges-60-in-q4-as-ai-workloads-expand/" target="_blank">Ethernet switch market, Q4 2025</a></li>
+          <li>IEA：<a href="https://www.iea.org/news/data-centre-electricity-use-surged-in-2025-even-with-tightening-bottlenecks-driving-a-scramble-for-solutions" target="_blank">Data centre electricity use update, 2026</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const rows = [
+      {cat:"compute", name:"AI加速器/GPU/ASIC", size:"$110B+ AI芯片收入口径；NVIDIA数据中心FY2026收入$193.7B", growth:"2025-2026仍高增，Blackwell放量", agent:"在线推理、工具调用、多模型路由", bottleneck:5, space:5, view:"最大市场，但一级市场整芯片难度高；更关注互联、供电、散热适配部件。"},
+      {cat:"compute", name:"HBM/DDR/CXL内存", size:"HBM 2025约$30B+，DRAM价值占比提升", growth:"AI芯片出货与单卡HBM容量双驱动", agent:"KV cache、长上下文、并发会话", bottleneck:5, space:4, view:"核心短板之一；设备、材料、测试、封装链条优于直接做存储大宗品。"},
+      {cat:"network", name:"AI网络交换机/NIC/DPU", size:"以太网交换机市场2025受数据中心拉动显著增长", growth:"800G向1.6T迁移，后端网络占比提升", agent:"RAG、工具调用、分布式推理增加东西向流量", bottleneck:4, space:4, view:"关注高速交换、拥塞控制、DPU/NIC和可观测性；生态认证是关键门槛。"},
+      {cat:"network", name:"光模块/AOC/DAC/高速铜缆", size:"800G/1.6T成为AI集群核心增量", growth:"端口速率升级+端口数上升", agent:"跨机柜、跨集群数据搬运", bottleneck:4, space:4, view:"高弹性、高迭代；需判断客户认证、良率、硅光/EML路线。"},
+      {cat:"power", name:"变压器/开关柜/UPS/母线/PDU", size:"DCPI市场2025单季接近$9B量级，2029约$63B", growth:"AI负载推高配电价值量", agent:"在线SLA要求供电冗余", bottleneck:5, space:5, view:"瓶颈强、现金流属性好；重点看长交期设备与高压/中压能力。"},
+      {cat:"cooling", name:"液冷CDU/冷板/泵阀/快接头", size:"直接液冷2025年化收入>$2B", growth:"Dell'Oro披露2025年直接液冷收入同比高增", agent:"高并发推理提高服务器长期满载率", bottleneck:4, space:3, view:"渗透率提升带来弹性；工程可靠性、漏液风险控制和服务器绑定能力决定胜出。"},
+      {cat:"storage", name:"高性能SSD/全闪/对象存储", size:"外部企业存储2025约$35B+口径", growth:"AI数据管道和RAG带动全闪、QLC、对象存储", agent:"知识库、日志、向量检索、checkpoint", bottleneck:3, space:4, view:"市场大但竞争成熟；关注AI-native存储软件硬件一体化和高吞吐架构。"},
+      {cat:"power", name:"备用电源/电池/燃气轮机/微电网", size:"随园区级AIDC建设放大", growth:"并网周期拉长推动自备电源方案", agent:"Agent生产化后停机容忍度下降", bottleneck:4, space:4, view:"受政策和能源资源约束；适合关注项目开发能力和设备集成。"},
+      {cat:"cooling", name:"冷源/干冷器/冷却塔/热回收", size:"随液冷从机柜扩展到园区热管理", growth:"高密度rack改变PUE与水耗约束", agent:"持续推理负载带来稳定热流", bottleneck:3, space:3, view:"设备市场分散，工程交付重要；关注低水耗与余热利用。"}
+    ];
+    const tbody = document.querySelector("#marketTable tbody");
+    function stars(n) { return "★★★★★".slice(0,n) + "☆☆☆☆☆".slice(0,5-n); }
+    function render(filter="all") {
+      tbody.innerHTML = "";
+      rows.filter(r => filter === "all" || r.cat === filter).forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><span class="tag ${r.cat}">${r.name}</span></td>
+          <td>${r.size}</td>
+          <td>${r.growth}</td>
+          <td>${r.agent}</td>
+          <td class="barcell"><b>${stars(r.bottleneck)}</b><div class="bar"><span style="width:${r.bottleneck*20}%"></span></div></td>
+          <td class="barcell"><b>${stars(r.space)}</b><div class="bar"><span style="width:${r.space*20}%"></span></div></td>
+          <td>${r.view}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    document.querySelectorAll("button[data-filter]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("button[data-filter]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        render(btn.dataset.filter);
+      });
+    });
+    render();
+  </script>
+</body>
+</html>
